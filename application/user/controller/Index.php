@@ -13,8 +13,7 @@ class Index extends Controller{
         //获取数据
         $data = Db::table('users')->select();
 
-        //测试数据是否获取成功
-        //dump($data);
+        //dump($data);  //测试数据是否获取成功
 
         //模板变量赋值
         $this->assign('users', $data);
@@ -22,6 +21,27 @@ class Index extends Controller{
         //渲染模板
         return $this->fetch();
     }
+
+    /**
+     * 显示添加用户信息
+     */
+    public function add(){
+        return $this->fetch();
+    }
+
+    /**
+     * 添加用户信息到数据库
+     */
+    public function save(){
+        $data = array();
+        $data['username'] = $_POST['username'];
+        $data['email'] = $_POST['email'];
+
+        Db::table('users')->insert($data);
+
+        $this->success('添加成功', 'user/index/all');
+    }
+
 
     /**
      * 显示编辑用户信息模板
