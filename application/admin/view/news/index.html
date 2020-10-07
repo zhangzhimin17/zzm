@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>显示所有新闻</title>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<ul>
+    {foreach $data as $v}
+    <li>
+        <a href="/news/{$v.id}">{$v.title}</a>
+        <a href="/news/{$v.id}/edit" >修改</a>
+        <a href="/news/{$v.id}" class="delete">删除</a>
+    </li>
+    {/foreach}
+</ul>
+
+<a href="{:url('/news/create')}">添加新闻</a>
+</body>
+<script>
+    $(".delete").click(function(){
+        var tag = confirm("你确定要删除该条新闻");
+        if(tag){
+            var self = $(this);
+            var url = self.attr('href');
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function (result) {
+                    if (result == '1') {
+                        self.parent().remove();
+
+                    }else{
+                        alert('删除失败');
+                    }
+                }
+            });
+        }
+        return false;
+    })
+
+</script>
+</html>
