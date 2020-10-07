@@ -60,7 +60,7 @@ return [
     // 默认控制器名
     'default_controller'     => 'Index',
     // 默认操作名
-    'default_action'         => 'all',
+    'default_action'         => 'index',
     // 默认验证器
     'default_validate'       => '',
     // 默认的空模块名
@@ -97,7 +97,7 @@ return [
     // 是否开启路由延迟解析
     'url_lazy_route'         => false,
     // 是否强制使用路由
-    'url_route_must'         => false,
+    'url_route_must'         => true,
     // 合并路由规则
     'route_rule_merge'       => false,
     // 路由是否完全匹配
