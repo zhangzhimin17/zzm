@@ -71,9 +71,10 @@ class User extends Controller
      * 删除用户
      */
     public function delete($id){
-        Db::table('users')->delete($id);
+        $id = (int)$id; //将$id转为数值型数据
+        Db::table('users')->delete();
 
-        $this->success('删除成功', '/users');
+       // $this->success('删除成功', '/users');
 
     }
 }

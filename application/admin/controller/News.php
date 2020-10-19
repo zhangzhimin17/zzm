@@ -70,7 +70,14 @@ class News extends Controller
      * 查看新闻详细信息
      */
     public function read($id){
-        echo $id;
+        //获取指定id的新闻
+        $new = Db::table('news')->find($id);
+
+        //模板变量赋值
+        $this->assign('news', $new);
+
+        //渲染模板
+        return $this->fetch();
     }
 
     /**
@@ -82,3 +89,15 @@ class News extends Controller
         echo '1';
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
