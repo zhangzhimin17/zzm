@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑新闻信息</title>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+    <form action="/student/{$student.id}" method="post">
+        <p>姓名：<input type="text" name="name" id="name" value="{$student.name}" /></p>
+        <p>学号：<input type="text" name="number" id="number" value="{$student.number}" /></p>
+
+        <!--同组单选按钮的name属性值要一致-->
+        <p>性别：
+            <input type="radio" name="sex" value="男" {if $student.sex=='男'}checked{/if}/>男
+            <input type="radio" name="sex" value="女" {if $student.sex=='女'}checked{/if}/>女
+        </p>
+        <p>年龄：<input type="number" name="age" value="{$student.age}" id="age"/></p>
+
+        <p>年级：
+            <select id="grade">
+                <option value="2017" {if $student.grade=='2017'}selected{/if}>2017</option>
+                <option value="2018" {if $student.grade=='2018'}selected{/if}>2018</option>
+                <option value="2019" {if $student.grade=='2019'}selected{/if}>2019</option>
+                <option value="2020" {if $student.grade=='2020'}selected{/if}>2020</option>
+            </select>
+        </p>
+        <input type="button" value="确定修改" id="submit"/></p>
+    </form>
+</body>
+<script>
+    $("#submit").click(function(){
+        $.ajax({
+            url: $("form").attr('action'),
+            type: 'PUT',
+            data:{
+                'name':$("#name").val(),
+                'number':$("#number").val(),
+                'sex':$("input[name='sex']").val(),
+                'age':$("#age").val(),
+                'grade':$("#grade").val(),
+            },
+            success: function (result) {
+                if (result == '1') {
+                    window.location.href = '/student';
+                }
+            }
+        });
+    });
+</script>
+</html>
