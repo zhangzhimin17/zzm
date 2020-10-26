@@ -6,7 +6,7 @@ use think\Controller;
 use think\Request;
 use think\Db;
 
-class Zhangzhimin extends Controller
+class Student extends Controller
 {
     /**
      * 显示资源列表

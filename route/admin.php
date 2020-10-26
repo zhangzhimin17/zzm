@@ -17,6 +17,3 @@ Route::resource('news', 'admin/News');
 
 //Student控制器的路由
 Route::resource('student', 'admin/Student');
-
-//Zhangzhimin控制器的路由
-Route::resource('zhangzhimin', 'admin/Zhangzhimin');
