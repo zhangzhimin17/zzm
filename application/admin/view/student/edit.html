@@ -25,6 +25,15 @@
                 <option value="2020" {if $student.grade=='2020'}selected{/if}>2020</option>
             </select>
         </p>
+        <p>作者：<input type="text" name="author" id="author" value="{$student.author}" /></p>
+        <p>籍贯：
+            <select name="native" id="native">
+                <option value="河北" {if $student.native=='河北'}selected{/if}>河北</option>
+                <option value="河南" {if $student.native=='河南'}selected{/if}>河南</option>
+                <option value="山东" {if $student.native=='山东'}selected{/if}>山东</option>
+                <option value="广州" {if $student.native=='广州'}selected{/if}>广州</option>
+            </select>
+        </p>
         <input type="button" value="确定修改" id="submit"/></p>
     </form>
 </body>
@@ -39,10 +48,12 @@
                 'sex':$("input[name='sex']").val(),
                 'age':$("#age").val(),
                 'grade':$("#grade").val(),
+                'author':$("#author").val(),
+                'native':$("#native").val()
             },
             success: function (result) {
                 if (result == '1') {
-                    window.location.href = '/student';
+                    window.location.href = '/zhangzhimin';
                 }
             }
         });

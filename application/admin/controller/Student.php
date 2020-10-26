@@ -1,12 +1,12 @@
 <?php
 
-namespace app\admin\controller;
+namespace app\Admin\controller;
 
 use think\Controller;
 use think\Request;
 use think\Db;
 
-class Student extends Controller
+class Zhangzhimin extends Controller
 {
     /**
      * 显示资源列表
@@ -21,7 +21,7 @@ class Student extends Controller
         //将获取到的数据传递给html模板。
         $this->assign('data', $data);
 
-        //渲染模板（找html文件，路径为：/admin/view/student/index.html）
+        //渲染模板（找html文件，路径为：/admin/view/Zhangzhimin/index.html）
         return $this->fetch();
     }
 
@@ -32,7 +32,6 @@ class Student extends Controller
      */
     public function create()
     {
-        //渲染模板（找html文件，路径为：/admin/view/student/create.html）
         return $this->fetch();
     }
 
@@ -54,11 +53,10 @@ class Student extends Controller
 
         //信息添加成功后，页面跳转到学生管理页面
         if($result){
-            $this->success('添加成功', '/student');
+            $this->success('添加成功', '/zhangzhimin');
         }else{
             $this->error('添加失败');
         }
-
     }
 
     /**
@@ -99,7 +97,6 @@ class Student extends Controller
      */
     public function update(Request $request, $id)
     {
-        //获取提交过来的所有数据
         $all = input();
 
         //将数据更新到数据库
@@ -107,8 +104,6 @@ class Student extends Controller
 
         //信息修改成功后，页面跳转到学生管理页面
         return 1;
-
-
     }
 
     /**
@@ -124,3 +119,7 @@ class Student extends Controller
         echo '1';
     }
 }
+
+
+
+
