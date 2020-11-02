@@ -15,8 +15,34 @@ class Student extends Controller
      */
     public function index()
     {
+        //设置查询条件
+        $map = array();
+        $map[] = ['id','>',0]; //即使搜索条件为空，也能查询到数据
+
+        //获取搜索条件里的性别
+        $sex = input('sex');
+        $this->assign('sex', $sex);
+
+        //获取搜索条件里的年级
+        $grade = input('grade');
+        $this->assign('grade', $grade);
+
+        //获取搜索条件的页码，如果页码不存在，其默认值设置为1
+        $page = input('page');
+        if(!$page){
+            $page=1;
+        }
+        $this->assign('page', $page);
+
+        if($sex && $sex != 'all'){
+            $map[] = ['sex', '=', $sex];
+        }
+        if($grade && $grade != 'all'){
+            $map[] = ['grade', '=', $grade];
+        }
+
         //获取student数据表中的所有学生
-        $data = Db::table("student")->select();
+        $data = Db::table("student")->order('id desc')->where($map)->paginate(5);
 
         //将获取到的数据传递给html模板。
         $this->assign('data', $data);
@@ -53,7 +79,7 @@ class Student extends Controller
 
         //信息添加成功后，页面跳转到学生管理页面
         if($result){
-            $this->success('添加成功', '/zhangzhimin');
+            $this->success('添加成功', '/student');
         }else{
             $this->error('添加失败');
         }

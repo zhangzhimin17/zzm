@@ -2,12 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>显示所有新闻</title>
+    <title>显示所有学生</title>
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet"/>
     <script src="/static/js/jquery.min.js"></script>
 </head>
 <body>
-<ul>
-    <table width="90%">
+    <form method="get" action="student">
+        性别：<select name="sex">
+                <option value="all" {if $sex=='all'}selected{/if}>全部</option>
+                <option value="男" {if $sex=='男'}selected{/if}>男</option>
+                <option value="女" {if $sex=='女'}selected{/if}>女</option>
+        </select>
+        年级：<select name="grade">
+        <option value="all" {if $grade=='all'}selected{/if}>全部</option>
+        <option value="2017" {if $grade=='2017'}selected{/if}>2017</option>
+        <option value="2018" {if $grade=='2018'}selected{/if}>2018</option>
+        <option value="2019" {if $grade=='2019'}selected{/if}>2019</option>
+        <option value="2020" {if $grade=='2020'}selected{/if}>2020</option>
+    </select>
+        姓名：<input type="text" name="username" />
+        <input name="page" id="page" value="{$page}" type="hidden" />
+        <input type="submit" value="搜索" id="submit"/>
+
+    </form>
+    <table width="100%">
         <tr align="left">
             <th>姓名</th>
             <th>学号</th>
@@ -28,17 +46,15 @@
                 <td>{$v.author}</td>
                 <td>{$v.native}</td>
                 <td>
-                    <a href="/zhangzhimin/{$v.id}/edit" >修改</a>
-                    <a href="/zhangzhimin/{$v.id}" class="delete">删除</a>
+                    <a href="/student/{$v.id}/edit" >修改</a>
+                    <a href="/student/{$v.id}" class="delete">删除</a>
                 </td>
 
             </tr>
         {/foreach}
     </table>
-
-</ul>
-
-<a href="{:url('/zhangzhimin/create')}">添加学生</a>
+    {$data|raw}
+<a href="{:url('/student/create')}">添加学生</a>
 </body>
 <script>
     $(".delete").click(function(){
@@ -62,5 +78,22 @@
         return false;
     })
 
+    //搜索分页
+    $(".pagination li a").click(function(){
+        var cur = $("#page").val();
+        var page=$(this).text();
+        console.log(page)
+        if(page=='«'){
+            $("#page").val(cur-1);
+        }else if(page=='»'){
+            $("#page").val(cur+1);
+        }else{
+            $("#page").val(page);
+        }
+
+        $("#submit").click();
+        return false;
+
+    });
 </script>
 </html>
