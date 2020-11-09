@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑科目</title>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<form action="/subject/{$subject.id}" method="post">
+    <p>科目类别：
+        <select name="category" id="category">
+            {foreach $categories as $category}
+            <option value="{$category.id}" {if $subject.category_id == $category.id}selected{/if}>{$category.category}</option>
+            {/foreach}
+        </select>
+    </p>
+    <p>科目：<input type="text" name="subject" id="subject" value="{$subject.subject}" /></p>
+    <p><input type="button" id="submit" value="修改" /></p>
+</form>
+</body>
+</html>
+
+<script>
+    $("#submit").click(function(){
+        $.ajax({
+            url: $("form").attr('action'),
+            type: 'PUT',
+            data:{
+                'subject':$("#subject").val(),
+                'category':$("#category").val()
+            },
+            success: function (result) {
+                if (result == '1') {
+                    window.location.href = '/subject';
+                }
+            }
+        });
+    });
+</script>

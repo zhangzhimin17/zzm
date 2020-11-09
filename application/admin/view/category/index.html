@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>显示所有类别</title>
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet"/>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+    <table width="100%">
+        <tr align="left">
+            <th>ID</th>
+            <th>类别</th>
+            <th>添加时间</th>
+            <th>修改时间</th>
+            <th>操作</th>
+        </tr>
+        {foreach $data as $k=>$v}
+            <tr>
+                <td>{$k+1}</td>
+                <td>{$v.category}</td>
+                <td>{$v.create_time}</td>
+                <td>{$v.update_time}</td>
+                <td>
+                    <a href="/category/{$v.id}/edit" >修改</a>
+                    <a href="/category/{$v.id}" class="delete">删除</a>
+                </td>
+
+            </tr>
+        {/foreach}
+    </table>
+
+<a href="{:url('/category/create')}">添加科目</a>
+</body>
+<script>
+    $(".delete").click(function(){
+        var tag = confirm("你确定要删除该条新闻");
+        if(tag){
+            var self = $(this);
+            var url = self.attr('href');
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function (result) {
+                    if (result == '1') {
+                        self.parent().parent().remove();
+
+                    }else{
+                        alert('删除失败');
+                    }
+                }
+            });
+        }
+        return false;
+    })
+
+    //搜索分页
+    $(".pagination li a").click(function(){
+        var cur = $("#page").val();
+        var page=$(this).text();
+        console.log(page)
+        if(page=='«'){
+            $("#page").val(cur-1);
+        }else if(page=='»'){
+            $("#page").val(cur+1);
+        }else{
+            $("#page").val(page);
+        }
+
+        $("#submit").click();
+        return false;
+
+    });
+</script>
+</html>

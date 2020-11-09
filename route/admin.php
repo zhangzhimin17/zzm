@@ -17,3 +17,11 @@ Route::resource('news', 'admin/News');
 
 //Student控制器的路由
 Route::resource('student', 'admin/Student');
+
+//Subject控制器的路由
+Route::resource('subject', 'admin/Subject');
+
+//Category控制器的路由
+Route::resource('category', 'admin/Category');
+
+
