@@ -5,9 +5,14 @@
     <title>添加用户信息</title>
 </head>
 <body>
-<form action="{:url('/usersave')}" method="post">
+<form action="/user" method="post">
     <p>用户名：<input type="text" name="username" value="" /></p>
     <p>email：<input type="text" name="email" value="" /></p>
+    <p>部门：
+        {foreach $departments as $d}
+        <input type="checkbox" name="department[]" value="{$d.id}">{$d.name}
+        {/foreach}
+    </p>
     <p><input type="submit" value="添加" /></p>
 </form>
 </body>

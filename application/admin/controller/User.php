@@ -3,13 +3,17 @@ namespace app\admin\controller;
 
 use think\Db;
 use think\Controller;
+use think\Request;
+
+use app\common\model\User as MUser;
+use app\common\model\Department;
 
 class User extends Controller
 {
     //显示所有用户
     public function index(){
         //获取数据
-        $data = Db::table('users')->select();
+        $data = MUser::all();
 
         //模板变量赋值
         $this->assign('users', $data);
@@ -21,7 +25,11 @@ class User extends Controller
     /**
      * 显示添加用户信息
      */
-    public function add(){
+    public function create(){
+        $departments = Department::all();
+
+        $this->assign('departments', $departments);
+
         return $this->fetch();
     }
 
@@ -29,13 +37,16 @@ class User extends Controller
      * 添加用户信息到数据库
      */
     public function save(){
-        $data = array();
-        $data['username'] = $_POST['username'];
-        $data['email'] = $_POST['email'];
+        $user = new MUser();
+        $user->username = input('username');
+        $user->email = input('email');
+        $user->save();
 
-        Db::table('users')->insert($data);
+        $departments = input('department');
 
-        $this->success('添加成功', '/users');
+        $user->departments()->saveAll($departments);
+
+        $this->success('添加成功', '/user');
     }
 
 
@@ -44,10 +55,13 @@ class User extends Controller
      */
     public function edit($id){
         //获取指定id的用户
-        $user = Db::table('users')->find($id);
+        $user = MUser::get($id);
+
+        $departments = Department::all();
 
         //模板变量赋值
         $this->assign('user', $user);
+        $this->assign('departments', $departments);
 
         //渲染模板
         return $this->fetch();
@@ -56,15 +70,9 @@ class User extends Controller
     /**
      * 更新用户信息
      */
-    public function update(){
-        $id = $_POST['id'];
+    public function update(Request $request, $id){
         $data = array();
-        $data['username'] = $_POST['username'];
-        $data['email'] = $_POST['email'];
 
-        Db::table('users')->where('id', $id)->update($data);
-
-        $this->success('修改成功', '/users');
     }
 
     /**

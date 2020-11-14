@@ -9,7 +9,7 @@
     <form action="/news/{$data.id}" method="put">
         <input type="hidden" name="_method" value="put">
         <p>标题：<input type="text" name="title" value="{$data.title}" id="title"/></p>
-        <p>内容：<textarea name="content" id="content">{$data.content}</textarea></p>
+        <p>内容：<textarea name="content" id="content">{$data.content.content}</textarea></p>
         <p><input type="hidden" id="id" value="{$data.id}" />
             <input type="button" value="确定修改" id="submit"/></p>
     </form>

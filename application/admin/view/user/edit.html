@@ -3,13 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>编辑用户信息</title>
+    <script src="/static/js/jquery.min.js"></script>
 </head>
 <body>
-    <form action="{:url('/userupdate')}" method="post">
-        <p>用户名：<input type="text" name="username" value="{$user.username}" /></p>
-        <p>email：<input type="text" name="email" value="{$user.email}" /></p>
-        <p><input type="hidden" name="id" value="{$user.id}" />
-            <input type="submit" value="确定修改" /></p>
+    <form action="/user/{$user.id}" method="post">
+        <p>用户名：<input type="text" id="username" value="{$user.username}" /></p>
+        <p>email：<input type="text" id="email" value="{$user.email}" /></p>
+        <p>部门：
+            {foreach $departments as $d}
+                <input type="checkbox" name="department" value="{$d.id}">{$d.name}
+            {/foreach}
+        </p>
+        <p>
+            <input type="button" value="确定修改" id="submit"/></p>
     </form>
 </body>
 </html>
+<script>
+    $("#submit").click(function(){
+        $.ajax({
+            url: $("form").attr('action'),
+            type: 'PUT',
+            data:{
+                'username':$("#username").val(),
+                'email':$("#email").val(),
+                'department':$("input[name='department']").val()
+            },
+            success: function (result) {
+                if (result == '1') {
+                    window.location.href = '/category';
+                }
+            }
+        });
+    });
+</script>

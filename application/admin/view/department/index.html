@@ -2,41 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>显示所有用户</title>
-    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <title>显示所有部门</title>
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet"/>
     <script src="/static/js/jquery.min.js"></script>
 </head>
 <body>
-    <table>
-    <tr>
-        <th>序号</th>
-        <th>用户名</th>
-        <th>邮箱</th>
-        <th>部门</th>
-        <th>操作</th>
-    </tr>
-    {foreach $users as $k=>$user}
-    <tr>
-        <td> {$k+1}</td>
-        <td>{$user.username} </td>
-        <td>{$user.email} </td>
-        <td>{foreach $user.departments as $d}
-            {$d.name}
+    <table width="100%">
+        <tr align="left">
+            <th>ID</th>
+            <th>部门</th>
+            <th>添加时间</th>
+            <th>修改时间</th>
+            <th>操作</th>
+        </tr>
+        {foreach $data as $k=>$v}
+            <tr>
+                <td>{$k+1}</td>
+                <td>{$v.name}</td>
+                <td>{$v.create_time}</td>
+                <td>{$v.update_time}</td>
+                <td>
+                    <a href="/department/{$v.id}/edit" >修改</a>
+                    <a href="/department/{$v.id}" class="delete">删除</a>
+                </td>
+
+            </tr>
         {/foreach}
-        </td>
-        <td>
-            <a href="/user/{$user.id}/edit" >修改</a>
-            <a href="/user/{$user.id}" >删除</a>
-        </td>
-    </tr>
-    {/foreach}
     </table>
 
-<a href="{:url('/user/create')}">添加用户</a>
+<a href="{:url('/department/create')}">添加部门</a>
 </body>
 <script>
     $(".delete").click(function(){
-        var tag = confirm("你确定要删除该用户？");
+        var tag = confirm("你确定要删除该条新闻");
         if(tag){
             var self = $(this);
             var url = self.attr('href');

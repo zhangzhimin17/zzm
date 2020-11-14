@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>显示所有新闻</title>
     <script src="/static/js/jquery.min.js"></script>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <ul>
@@ -15,6 +16,7 @@
     </li>
     {/foreach}
 </ul>
+{$data | raw}
 
 <a href="{:url('/news/create')}">添加新闻</a>
 </body>

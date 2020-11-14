@@ -3,13 +3,16 @@ namespace app\admin\controller;
 
 use think\Db;
 use think\Controller;
+use app\common\model\News as MNews;
+use app\common\model\NewsContent;
 
 class News extends Controller
 {
     //显示所有新闻
     public function index(){
+        $model = new MNews();
         //获取数据
-        $data = Db::table('news')->select();
+        $data = $model->order('id desc')->paginate(1);
 
         //模板变量赋值
         $this->assign('data', $data);
@@ -29,13 +32,17 @@ class News extends Controller
      * 添加新闻信息到数据库
      */
     public function save(){
-        $data = array();
-        $data['title'] = $_POST['title'];
-        $data['content'] = $_POST['content'];
+       $news = new MNews();
+       $news->title = input('title');
 
-        Db::table('news')->insert($data);
+       $content = new NewsContent();
+       $content->content = input('content');
 
-        $this->success('添加成功', '/news');
+       $news->content = $content;
+
+       $news->together('content')->save();
+
+       $this->success('添加成功', '/news');
     }
 
 
@@ -44,7 +51,7 @@ class News extends Controller
      */
     public function edit($id){
         //获取指定id的新闻
-        $new = Db::table('news')->find($id);
+        $new =MNews::get($id);
 
         //模板变量赋值
         $this->assign('data', $new);
@@ -57,11 +64,12 @@ class News extends Controller
      * 更新新闻信息
      */
     public function update($id){
-        $data = array();
-        $data['title'] = input('title');
-        $data['content'] = input('content');
+        $news = MNews::get($id);
+        $news->title = input('title');
 
-        Db::table('news')->where('id', $id)->update($data);
+        $news->content->content=input('content');
+
+        $news->together('content')->save();
 
         echo 1;
     }
@@ -71,7 +79,7 @@ class News extends Controller
      */
     public function read($id){
         //获取指定id的新闻
-        $new = Db::table('news')->find($id);
+        $new = MNews::get($id);
 
         //模板变量赋值
         $this->assign('news', $new);
@@ -84,7 +92,8 @@ class News extends Controller
      * 删除新闻
      */
     public function delete($id){
-        Db::table('news')->delete($id);
+        $news = MNews::get($id);
+        $news->together('content')->delete();
 
         echo '1';
     }

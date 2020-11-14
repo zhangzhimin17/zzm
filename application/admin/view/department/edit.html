@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑部门</title>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<form action="/department/{$department.id}" method="post">
+    <p>类别：<input type="text" name="name" id="department" value="{$department.name}" /></p>
+    <p><input type="button" id="submit" value="修改" /></p>
+</form>
+</body>
+</html>
+
+<script>
+    $("#submit").click(function(){
+        $.ajax({
+            url: $("form").attr('action'),
+            type: 'PUT',
+            data:{
+                'department':$("#department").val()
+            },
+            success: function (result) {
+                if (result == '1') {
+                    window.location.href = '/department';
+                }
+            }
+        });
+    });
+</script>
